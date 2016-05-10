@@ -7,7 +7,7 @@ import (
 )
 
 /*
-	Environment varaibable ival and sval will have highest precedence
+	Environment variabable IVAL and SVAL will have highest precedence
 	command line params -ival and -sval will have next precedence
 	and finally defaults
 */

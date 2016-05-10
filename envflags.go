@@ -26,7 +26,7 @@ func New() *FlagSet {
 	}
 }
 
-// Transform builder style uppercase transform
+// Transform builder style transformer
 func (f *FlagSet) Transform(transform func(string) string) *FlagSet {
 	f.transform = transform
 	return f
