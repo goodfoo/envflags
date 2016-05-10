@@ -15,17 +15,20 @@ import (
 // FlagSet has-a flag.Flagset
 type FlagSet struct {
 	flag.FlagSet
-	uppercase bool
+	transform func(string) string
 }
 
 // New return a new *FlagSet
 func New() *FlagSet {
-	return &FlagSet{}
+	return &FlagSet{
+		flag.FlagSet{},
+		strings.ToUpper,
+	}
 }
 
-// Upper builder style uppercase transform
-func (f *FlagSet) Upper() *FlagSet {
-	f.uppercase = true
+// Transform builder style uppercase transform
+func (f *FlagSet) Transform(transform func(string) string) *FlagSet {
+	f.transform = transform
 	return f
 }
 
@@ -34,13 +37,9 @@ func (f *FlagSet) Parse() {
 	// get command line stuff and defaults
 	f.FlagSet.Parse(os.Args[1:])
 
-	transformer := func(s string) string { return s }
-	if f.uppercase {
-		transformer = strings.ToUpper
-	}
 	// inject environment
 	f.VisitAll(func(flag *flag.Flag) {
-		if value, OK := os.LookupEnv(transformer(flag.Name)); OK {
+		if value, OK := os.LookupEnv(f.transform(flag.Name)); OK {
 			flag.Value.Set(value)
 		}
 	})

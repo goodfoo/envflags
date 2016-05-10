@@ -13,7 +13,7 @@ import (
 */
 
 func main() {
-	flags := envflags.New().Upper()
+	flags := envflags.New()
 
 	i := flags.Int("ival", 1, "provide and ival as a parameter or env var")
 	s := flags.String("sval", "flags!", "provide a sval as a parameter or env var")
