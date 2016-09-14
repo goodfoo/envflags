@@ -1,9 +1,9 @@
 /*
-	Package envflags exposes an enhanced flag.Flagset which
-	is a normal Flagset except it also injects environment variables
-	at the highest precedence.
-*/
+Package envflags exposes an enhanced flag.Flagset
+which injects environment variables at the highest precedence.
 
+see: https://golang.org/pkg/flag/
+*/
 package envflags
 
 import (
@@ -12,7 +12,9 @@ import (
 	"strings"
 )
 
-// FlagSet has-a flag.Flagset
+// FlagSet is a flag.Flagset and exposes all normal Flagset methods.
+//
+// see: https://golang.org/pkg/flag/
 type FlagSet struct {
 	flag.FlagSet
 	transform func(string) string
@@ -26,13 +28,16 @@ func New() *FlagSet {
 	}
 }
 
-// Transform builder style transformer
+// Transform apply a transformation to the flag name when searching the ENVIRONMENT
+// Any func string -> string is suitable.
+//
+// default is https://golang.org/pkg/strings/#ToUpper
 func (f *FlagSet) Transform(transform func(string) string) *FlagSet {
 	f.transform = transform
 	return f
 }
 
-// Parse inject the environment at highest precedence
+// Parse flag.Parse and inject the environment at highest precedence.
 func (f *FlagSet) Parse() {
 	// get command line stuff and defaults
 	f.FlagSet.Parse(os.Args[1:])
