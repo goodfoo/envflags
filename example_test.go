@@ -10,7 +10,7 @@ import (
 // Environment variabable IVAL and SVAL will have highest precedence
 // command line params -ival and -sval will have next precedence
 // and finally defaults
-func ExampleFlagSet_Parse() {
+func Example() {
 	flags := envflags.New() // .Transform(strings.ToLower) <- optional, default is strings.ToUpper
 
 	i := flags.Int("ival", 1, "provide and ival as a parameter or env var")
